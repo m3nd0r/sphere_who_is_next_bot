@@ -66,8 +66,9 @@ class Employee:
         )
 
     @property
-    def random_one(self) -> str:
-        return random.choice(self.employees_dict)
+    def random_three(self) -> str:
+        random_keys = random.sample(list(self.employees_dict), 3)
+        return [self.employees_dict[id] for id in random_keys]
 
     @property
     def selected(self) -> str:
@@ -80,16 +81,14 @@ def split_list(data):
 
 def create_answer_keyboard(selected_employee: Employee) -> list:
     # Заполняем рандомными 3 кнопками
-    keyboard: list = random.sample(
-        [
+    keyboard = []
+    for random_employee in selected_employee.random_three:
+        keyboard.append(
             InlineKeyboardButton(
-                f"{selected_employee.random_one}",
+                f"{random_employee}",
                 callback_data=f"incorrect, {selected_employee.next_one}",
             )
-            for i in range(1, 10)
-        ],
-        3,
-    )
+        )
     # Запоминаем правильный ответ
     correct_button: list = [
         InlineKeyboardButton(
