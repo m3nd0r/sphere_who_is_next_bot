@@ -126,17 +126,19 @@ def get_choosen(context: CallbackContext.DEFAULT_TYPE):
 
 async def start(update: Update, context: CallbackContext.DEFAULT_TYPE):
     choosen = get_choosen(context)
-    keyboard: list = [[
-        InlineKeyboardButton(
-            "Поехали!",
-            callback_data=f"continue",
-        )
-    ]]
+    keyboard: list = [
+        [
+            InlineKeyboardButton(
+                "Поехали!",
+                callback_data=f"continue",
+            )
+        ]
+    ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="Привет!\nТы ДОЛЖЕН знать порядок людей на созвоне!😈",
-        reply_markup=reply_markup
+        reply_markup=reply_markup,
     )
 
 
@@ -173,7 +175,9 @@ async def button(update: Update, context: CallbackContext.DEFAULT_TYPE):
 
 
 if __name__ == "__main__":
-    application = ApplicationBuilder().token(TOKEN).build() # не забываем токен корректный вставить
+    application = (
+        ApplicationBuilder().token(TOKEN).build()
+    )  # не забываем токен корректный вставить
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button))
